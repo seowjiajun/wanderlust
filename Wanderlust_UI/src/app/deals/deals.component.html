@@ -1,0 +1,90 @@
+<div id="packages" class="container">
+  <div *ngIf="destinationList != null">
+    <table *ngFor="let destination of destinationList">
+      <tr>
+        <td>
+          <img src="{{ destination.imageUrl }}" class="cover" alt="" />
+        </td>
+        <td>
+          <p>
+            <strong>{{ destination.destinationName }}</strong>
+          </p>
+          <span *ngIf="destination.discount > 0" class="text-danger"><strong>{{ destination.discount }}% Instant Discount</strong></span>
+          <p>{{ destination.details.about }}</p>
+          <div class="padding">
+            <button type="button" class="btn btn-primary inline" (click)="getPackageById(destination.destinationId)" data-toggle="modal" data-target="#myModal">
+              VIEW DETAILS
+            </button>
+            <div class="modal" id="myModal">
+              <div class="modal-dialog modal-lg modal-dialog-scrollable" *ngIf="destinationTemp != null">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Itinerary</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                      &times;
+                    </button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <h5 style="text-align: left;">Tour highlights</h5>
+                    <div
+                      style="display: flex; flex-direction: row; justify-content: space-between;">
+                      <ul style="font-size: 15px;">
+                        <li *ngFor="let highlights of destinationTemp.details.highlights.split(',')">
+                          {{ highlights }}
+                        </li>
+                      </ul>
+                      <img [src]="destinationTemp.imageUrl" style="width: 40%;" />
+                    </div>
+                    <h5 style="text-align: left; padding-top: 8px;">
+                      Package Inclusions
+                    </h5>
+                    <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+                      <div style="text-align: left; width: 40%;">
+                        <img [src]="destinationTemp.imageUrl" style="width: 100%;" />
+                      </div>
+                      <ul style="text-align: left; font-size: 15px;">
+                        <li *ngFor="let packageInclusion of destinationTemp.details.packageInclusion.split(',')">
+                          {{ packageInclusion }}
+                        </li>
+                      </ul>
+                      <br />
+                    </div>
+                    <br />
+                    <p style="font-size: 20px;">
+                      Prices starting from: ${{ destinationTemp.chargePerPerson }}.00
+                    </p>
+                    <h5 style="text-align: left; padding-top: 8px;">
+                      Tour Pace:
+                    </h5>
+                    <ul style="text-align: left; font-size: 15px;">
+                      <li *ngFor="let pace of destinationTemp.details.pace.split(',')">
+                        {{ pace }}
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" routerLink="{{ '/book/' + destinationTemp.destinationId }}">
+                      Book
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary inline" routerLink="{{ '/book/' + destination.destinationId }}" style="margin-left: 25px;">
+              BOOK
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

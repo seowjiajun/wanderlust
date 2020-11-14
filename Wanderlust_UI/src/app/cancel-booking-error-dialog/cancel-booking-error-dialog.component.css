@@ -1,0 +1,9 @@
+.modal-header {
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    background-color: rgba(0,0,0,.03);
+}
+
+.modal-header .close {
+	padding: 0.5rem;
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}

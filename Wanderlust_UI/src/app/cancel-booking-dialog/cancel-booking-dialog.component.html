@@ -1,0 +1,14 @@
+<div class="modal-header">
+    <span>{{ title }}</span>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()" tabindex="-1">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p class="text-danger">Are you sure you want to cancel your trip to ?</p>
+    {{ message }}
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="decline()">{{ btnCancelText }}</button>
+    <button type="button" class="btn btn-primary" (click)="accept()">{{ btnOkText }}</button>
+</div>

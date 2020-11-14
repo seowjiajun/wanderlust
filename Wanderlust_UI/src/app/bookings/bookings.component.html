@@ -1,0 +1,39 @@
+<!-- Bookings Section -->
+<section id="bookings" class="bookings-section">
+    <div class="container">
+        <div class="text-center" *ngIf="errorMessage != null || bookingList.length == 0">
+            <p class="text-danger" *ngIf="errorMessage != null">{{ errorMessage }}</p>
+            <p class="h1" *ngIf="bookingList.length == 0">You have no bookings currently!</p>
+            <br *ngIf="bookingList.length == 0" /><button type="button" class="btn btn-secondary" *ngIf="bookingList.length == 0" [routerLink]="['/home']">Back to Home</button>
+        </div>
+        <div class="row" *ngFor="let booking of bookingList">
+            <div class="mx-auto card" style="width: 35rem">
+                <div class="card-header">
+                    Booking ID: {{ booking.bookingId }}
+                </div>
+                <div>
+                    <table id="bookings-table">
+                        <tbody>
+                          <tr>
+                            <td>Trip starts on: {{ booking.checkIn |  date:'MMMM d, y' }}</td>
+                            <td>Fare Details</td>
+                          </tr>
+                          <tr>
+                            <td>Trip ends on: {{ booking.checkOut |  date:'MMMM d, y' }}</td>
+                            <td>${{ booking.totalCost }}</td>
+                          </tr>
+                          <tr>
+                            <td>Travellers: {{ booking.noOfPeople }}</td>
+                            <td>
+                              <a role="button" href="javascript:void(0);" (click)="openCancelBookingDialog(booking.bookingId)">Claim Refund</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

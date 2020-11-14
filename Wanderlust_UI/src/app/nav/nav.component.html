@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top" id="mainNav">
+  <a class="navbar-brand"  [routerLink]="['/home']">Start Wandering</a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu<i class="fas fa-bars"></i>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item" *ngIf="loggedIn">
+            <a class="nav-link" [routerLink]="['/home']">Welcome {{userName}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/deals']">Hot Deals</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/bookings']">Planned Trips</a>
+        </li>
+        <li class="nav-item" *ngIf="!loggedIn">
+          <a class="nav-link" [routerLink]="['/login']">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="loggedIn">
+          <a class="nav-link" (click)="logout()">Logout</a>
+        </li>
+      </ul>
+  </div>
+</nav>

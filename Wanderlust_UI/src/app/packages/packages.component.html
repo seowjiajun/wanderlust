@@ -1,0 +1,119 @@
+<div id="packages" class="container">
+  <div id="packages-range">
+    <div>
+      Max Price: $ {{ price }}<br />
+      <input [(ngModel)]="price" (change)="filterPackage()" type="range" min="2000" max="5000" value="5000" step="500" class="slider" class="package-range-slider">
+    </div>
+    <div>
+      Max Vacation Days: {{ night }} nights<br />
+      <input [(ngModel)]="night" (change)="filterPackage()" type="range" min="1" max="25" value="25" step="1" class="slider" class="package-range-slider">
+    </div>
+  </div>
+  <div *ngIf="errorMsg != null" class="text-danger text-center">
+    <h1 class="error">{{ errorMsg }}</h1>
+    <br />
+    <button type="button" class="btn btn-primary" [routerLink]="['/home']">
+      Back to Home
+    </button>
+  </div>
+  <div *ngIf="destinationList != null">
+    <table *ngFor="let destination of destinationList">
+      <tr>
+        <td>
+          <img src="{{ destination.imageUrl }}" class="cover" alt="" />
+        </td>
+        <td>
+          <div>
+            <span class="badge badge-primary"
+              >{{ destination.noOfNights }} Nights</span
+            >
+            <p *ngIf="destination.discount > 0" class="text-danger">
+              <strong>{{ destination.discount }}% Instant Discount</strong>
+            </p>
+            <p>{{ destination.details.about }}</p>
+          </div>
+        </td>
+        <td>
+          <strong>Prices Starting From:</strong>
+          <p class="text">
+            <strong>${{ destination.chargePerPerson }}.00</strong>
+          </p>
+          <p>
+            <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" (click)="getPackageById(destination.destinationId)">
+              VIEW DETAILS
+            </button>
+          </p>
+          <div class="modal" id="myModal">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable" *ngIf="destinationTemp != null">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Itinerary</h4>
+                  <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                  </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <h5 style="text-align: left;">Tour highlights</h5>
+                  <div
+                    style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <ul style="text-align: left; font-size: 15px;">
+                      <li *ngFor="let highlights of destinationTemp.details.highlights.split(',')">
+                        {{ highlights }}
+                      </li>
+                    </ul>
+                    <img [src]="destinationTemp.imageUrl" style="width: 40%;" />
+                  </div>
+                  <h5 style="text-align: left; padding-top: 8px;">
+                    Package Inclusions
+                  </h5>
+                  <div style="display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+                    <div style="text-align: left; width: 40%;">
+                      <img [src]="destinationTemp.imageUrl" style="width: 100%;" />
+                    </div>
+                    <ul style="text-align: left; font-size: 15px;">
+                      <li *ngFor="let packageInclusion of destinationTemp.details.packageInclusion.split(',')">
+                        {{ packageInclusion }}
+                      </li>
+                    </ul>
+                    <br />
+                  </div>
+                  <br />
+                  <p style="font-size: 20px;">
+                    Prices starting from: ${{ destinationTemp.chargePerPerson }}.00
+                  </p>
+                  <h5 style="text-align: left; padding-top: 8px;">
+                    Tour Pace:
+                  </h5>
+                  <ul style="text-align: left; font-size: 15px;">
+                    <li *ngFor="let pace of destinationTemp.details.pace.split(',')">
+                      {{ pace }}
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" routerLink="{{ '/book/' + destinationTemp.destinationId }}">
+                    Book
+                  </button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>
+            <button type="button" class="btn btn-primary btn-block">
+              BOOK
+            </button>
+          </p>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

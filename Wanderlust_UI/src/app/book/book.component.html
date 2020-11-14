@@ -1,0 +1,101 @@
+<section id="bookingPage" style="padding-top: 100px;" class="container" *ngIf="destination != null">
+  <div class="row">
+    <!--  Accordion -->
+    <div class="col-sm-8">
+      <h1>{{ destination.destinationName }}</h1>
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn" data-toggle="collapse" data-target="#collapseOverview" aria-expanded="true" aria-controls="collapseOne">
+                <b>+</b> Overview
+              </button>
+            </h5>
+          </div>
+          <div id="collapseOverview" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              {{ destination.details.about }}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="btn collapsed" data-toggle="collapse" data-target="#collapsePackageInclusions" aria-expanded="false" aria-controls="collapseTwo">
+                <b>+</b> Package Inclusions
+              </button>
+            </h5>
+          </div>
+          <div id="collapsePackageInclusions" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let inclusion of packageInclusion">
+                  {{ inclusion }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn collapsed" data-toggle="collapse" data-target="#collapseItinerary" aria-expanded="false" aria-controls="collapseThree">
+                <b>+</b> Itinerary
+              </button>
+            </h5>
+          </div>
+          <div id="collapseItinerary" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+              <p>{{ destination.details.itinerary.firstDay }}</p>
+              <p>{{ destination.details.itinerary.restOfDays }}</p>
+              <p>{{ destination.details.itinerary.lastDay }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Form -->
+    <div class="card col-sm-4">
+      <div class="card-body">
+        <form #bookingForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form-group">
+            <label for="pax">Number of Travellers</label>
+            <select required #pax="ngModel" type="number"
+              [class.is-invalid]="pax.invalid && pax.touched" class="form-control"
+              aria-describedby="numbersHelp" placeholder="Enter Number of Travellers"
+              name="pax" (change)="calculateCost(includeFlight.checked)"
+              [(ngModel)]="booking.noOfPeople">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+            <small class="text-danger" [class.d-none]="pax.valid || pax.untouched">The number of travelers should be between 1 and 5.</small>
+          </div>
+          <div class="form-group">
+            <label for="startDate">Trip Start Date</label>
+            <input required #startDate="ngModel" class="form-control" type="date" [class.is-invalid]="startDate.invalid && startDate.touched"
+              placeholder="Mm-Dd-YYYY" name="startDate" [ngModel]="booking.checkIn | date:'yyyy-MM-dd'" (ngModelChange)="updateCheckOut($event)">
+            <small class="text-danger" [class.d-none]="startDate.valid || startDate.untouched">Please select a start date</small>
+          </div>
+          <div class="form-check">
+            <input #includeFlight required type="checkbox" class="form-check-input"
+              name="includeFlight" (change)="calculateCost(includeFlight.checked)" ngModel>
+            <label class="form-check-label" for="includeFlight">Include Flight</label>
+          </div>
+          <br />
+          <span>Your trip ends on: {{ booking.checkOut |  date:'MMMM d, y' }}</span><br />
+          <h3>You Pay: ${{ totalCost }}</h3>
+          <br />
+          <span *ngIf="errorMessage != null" class="text-danger">{{ errorMessage }}</span>
+          <span *ngIf="successMessage != null" class="text-success">{{ successMessage }}</span>
+          <div>
+            <button type="submit" class="btn btn-primary btn-sm">Confirm Booking</button><br /><br />
+            <button [routerLink]="['/home']" type="button" class="btn btn-secondary btn-sm">Go Back</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

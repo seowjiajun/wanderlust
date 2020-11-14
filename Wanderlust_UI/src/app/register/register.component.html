@@ -1,0 +1,52 @@
+<section class="registerSection">
+  <div class="row">
+    <div class="col-md-4 offset-4">
+      <h1>Join Us</h1>
+      <form [formGroup]="registerform" (ngSubmit)="register()" class="form">
+        <div class="form-group">
+          <label>Name<span class="text-danger">*</span></label>
+          <input type="text" formControlName="userName" id="userName" class="form-control" />
+          <span id="userNameError" class="text-danger" *ngIf="registerform.controls.userName.dirty && registerform.controls.userName.invalid">
+            Sorry, the entered name is of invalid pattern!
+          </span>
+        </div>
+        <div class="form-group">
+          <label>Email Id<span class="text-danger">*</span></label>
+          <input type="text" formControlName="emailId" id="emailId" class="form-control" />
+          <span id="emailIdError" class="text-danger" *ngIf="registerform.controls.emailId.dirty && registerform.controls.emailId.invalid">
+            Please enter a valid email address!
+          </span>
+        </div>
+        <div class="form-group">
+          <label>Contact Number<span class="text-danger">*</span></label>
+          <input type="text" formControlName="contactNumber" id="contactNumber" class="form-control" />
+          <span id="contactNumberError" class="text-danger" *ngIf="registerform.controls.contactNumber.dirty && registerform.controls.contactNumber.invalid">
+            Please enter a 10-digit mobile number!
+          </span>
+        </div>
+        <div class="form-group">
+          <label>Password<span class="text-danger">*</span></label>
+          <input type="password" formControlName="password" id="password" class="form-control" />
+          <span id="passwordError" class="text-danger" *ngIf="registerform.controls.password.dirty && registerform.controls.password.invalid">
+            Please enter a valid password!
+          </span>
+        </div>
+        <span><span class="text-danger">*</span> marked fields are mandatory</span>
+        <br /><br />
+        <button type="submit" class="btn btn-primary">
+          Register
+        </button>
+      </form>
+      <div class="content-section implementation" *ngIf="userName">
+        <!-- Success message -->
+        <span class="text-success">{{ userName | registerPipe }}</span>
+        <br />
+        <a class="text-success" [routerLink]="['/login']">Click here to login</a>
+      </div>
+      <div class="text-danger" *ngIf="errorMessage">
+        <!-- Error message -->
+        <span class="text-danger">{{ errorMessage }}</span>
+      </div>
+    </div>
+  </div>
+</section>  
